@@ -1,0 +1,14 @@
+=== RUN   TestAuthFlow
+=== RUN   TestAuthFlow/Register_User
+=== RUN   TestAuthFlow/Login_User
+=== RUN   TestAuthFlow/Get_Me_(Protected)
+=== RUN   TestAuthFlow/Logout
+=== RUN   TestAuthFlow/Get_Me_(Unauthorized)
+--- PASS: TestAuthFlow (0.62s)
+    --- PASS: TestAuthFlow/Register_User (0.30s)
+    --- PASS: TestAuthFlow/Login_User (0.28s)
+    --- PASS: TestAuthFlow/Get_Me_(Protected) (0.00s)
+    --- PASS: TestAuthFlow/Logout (0.00s)
+    --- PASS: TestAuthFlow/Get_Me_(Unauthorized) (0.00s)
+PASS
+ok  	github.com/petergabriel-dev/budgeting-app/tests/integration	(cached)

@@ -1,0 +1,45 @@
+# Auth Verification Results
+Date: 2026-01-20 18:49:00 +08:00
+
+## Automated Tests (Integration)
+All 5 tests PASSED in 0.62s:
+- TestAuthFlow/Register_User: PASS (0.30s)
+- TestAuthFlow/Login_User: PASS (0.28s) 
+- TestAuthFlow/Get_Me_(Protected): PASS (0.00s)
+- TestAuthFlow/Logout: PASS (0.00s)
+- TestAuthFlow/Get_Me_(Unauthorized): PASS (0.00s)
+
+Test file: src/backend/tests/integration/auth_test.go
+
+## Manual Verification Results
+
+### 1. Registration Flow
+- Navigate to /register: ✅ SUCCESS
+- Fill form with user_b@test.local / TestPass123!: ✅ SUCCESS
+- Click Sign up: ✅ SUCCESS
+- Redirect to /dashboard: ✅ SUCCESS
+
+### 2. Login Flow
+- Navigate to /login: ✅ SUCCESS
+- Fill form with credentials: ✅ SUCCESS
+- Click Sign in: ✅ SUCCESS
+- Redirect to /dashboard: ✅ SUCCESS
+
+### 3. Session Persistence
+- Refresh page while on dashboard: ✅ SUCCESS
+- Verify still on dashboard: ✅ SUCCESS
+
+### 4. Logout Flow
+- Find logout button: ❌ NOT AVAILABLE
+- Note: Logout button needs to be added in Task 7 (Dashboard Shell)
+- Backend logout endpoint verified via integration tests
+
+## Bug Fixed
+- Fixed infinite redirect loop in axios interceptor
+- The /auth/me endpoint was triggering 401 redirects on public pages
+- Fix: Exclude /auth/me from 401 redirect interceptor
+- File modified: src/frontend/src/lib/api.ts
+
+## Test Users Used (per Enforcer Protocol)
+- user_a@test.local (Standard Test Identity)
+- user_b@test.local (Standard Test Identity)

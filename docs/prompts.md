@@ -23,53 +23,53 @@
 
 ## Task 3: Database Schema (Users)
 **Goal:** Create the `users` table.
-- [ ] Create `goose` migration: `users` table (id, email, password_hash, created_at). (Use Skill: db-migration)
-- [ ] Run `goose up`.
-- [ ] Create `sqlc` queries: `CreateUser`, `GetUserByEmail`, `GetUserByID`.
-- [ ] Run `sqlc generate`.
+- [x] Create `goose` migration: `users` table (id, email, password_hash, created_at). (Use Skill: db-migration)
+- [x] Run `goose up`.
+- [x] Create `sqlc` queries: `CreateUser`, `GetUserByEmail`, `GetUserByID`.
+- [x] Run `sqlc generate`.
 
 ## Task 4: Backend - Auth Feature
 **Goal:** Implement user registration, login, and session management.
 **Dependencies:** Task 3
-- [ ] Create `src/backend/internal/features/auth/interface.go`. (Use Skill: create_go_feature)
-- [ ] Create `src/backend/internal/features/auth/service.go`:
+- [x] Create `src/backend/internal/features/auth/interface.go`. (Use Skill: create_go_feature)
+- [x] Create `src/backend/internal/features/auth/service.go`:
   - `Register(email, password)`: Hash password, create user.
   - `Login(email, password)`: Verify password, create session.
   - `Logout(sessionToken)`: Invalidate session.
   - `ValidateSession(token)`: Return user.
-- [ ] Create `src/backend/internal/features/auth/handler.go`:
+- [x] Create `src/backend/internal/features/auth/handler.go`:
   - `POST /api/v1/auth/register`
   - `POST /api/v1/auth/login`
   - `POST /api/v1/auth/logout`
   - `GET /api/v1/auth/me`
-- [ ] Implement Session middleware (HttpOnly cookies).
-- [ ] Implement CSRF protection (Double Submit Cookie).
-- [ ] Register routes in `main.go`.
+- [x] Implement Session middleware (HttpOnly cookies).
+- [x] Implement CSRF protection (Double Submit Cookie).
+- [x] Register routes in `main.go`.
 
 ## Task 5: Frontend - Auth Feature
 **Goal:** Implement login/register forms and auth context.
 **Dependencies:** Task 4
-- [ ] Create `src/frontend/src/features/auth/types/index.ts`. (Use Skill: create_react_feature)
-- [ ] Create `src/frontend/src/features/auth/hooks/useAuth.ts`:
+- [x] Create `src/frontend/src/features/auth/types/index.ts`. (Use Skill: create_react_feature)
+- [x] Create `src/frontend/src/features/auth/hooks/useAuth.ts`:
   - `useLogin()`, `useRegister()`, `useLogout()`, `useCurrentUser()`.
-- [ ] Create `src/frontend/src/features/auth/components/LoginForm.tsx`.
-- [ ] Create `src/frontend/src/features/auth/components/RegisterForm.tsx`.
-- [ ] Create `src/frontend/src/contexts/AuthContext.tsx`.
-- [ ] Create `ProtectedRoute` component.
-- [ ] Update `App.tsx` with routes: `/login`, `/register`, `/dashboard`.
+- [x] Create `src/frontend/src/features/auth/components/LoginForm.tsx`.
+- [x] Create `src/frontend/src/features/auth/components/RegisterForm.tsx`.
+- [x] Create `src/frontend/src/contexts/AuthContext.tsx`.
+- [x] Create `ProtectedRoute` component.
+- [x] Update `App.tsx` with routes: `/login`, `/register`, `/dashboard`.
 
 ## Task 6: Auth Verification
 **Goal:** Verify authentication flow.
-- [ ] **Automated:** Create `src/backend/tests/integration/auth_test.go`:
+- [x] **Automated:** Create `src/backend/tests/integration/auth_test.go`:
   - Register user -> Verify 201.
   - Login -> Verify HttpOnly cookie set.
   - Access `/auth/me` with cookie -> Verify user returned.
   - Access `/auth/me` without cookie -> Verify 401.
-- [ ] **Manual:**
+- [x] **Manual:**
   - Register new user.
   - Login -> Verify redirect to dashboard.
   - Refresh page -> Verify session persists.
-  - Logout -> Verify redirect to login.
+  - Logout -> Verify redirect to login. *(Note: Logout button needs to be added in Task 7: Dashboard Shell)*
 
 ---
 
@@ -77,10 +77,10 @@
 
 ## Task 7: Frontend - Dashboard Shell
 **Goal:** Create the main dashboard layout with navigation.
-- [ ] Create `src/frontend/src/components/DashboardLayout.tsx`. (Use Skill: create_react_feature)
-- [ ] Implement responsive sidebar/navbar.
-- [ ] Add global loading indicator.
-- [ ] Integrate with React Router (SPA navigation).
+- [x] Create `src/frontend/src/components/DashboardLayout.tsx`. (Use Skill: create_react_feature)
+- [x] Implement responsive sidebar/navbar.
+- [x] Add global loading indicator.
+- [x] Integrate with React Router (SPA navigation).
 
 ---
 

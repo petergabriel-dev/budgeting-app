@@ -12,6 +12,9 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/petergabriel-dev/budgeting-app/internal/database"
+	"github.com/petergabriel-dev/budgeting-app/internal/features/auth"
+	"github.com/petergabriel-dev/budgeting-app/internal/shared/middleware"
 )
 
 func main() {
@@ -40,6 +43,15 @@ func main() {
 	}
 	log.Println("Connected to database")
 
+	// Initialize database queries (sqlc)
+	queries := database.New(pool)
+
+	// Initialize services
+	authService := auth.NewService(queries)
+
+	// Initialize handlers
+	authHandler := auth.NewHandler(authService)
+
 	// Initialize router
 	r := gin.Default()
 
@@ -47,7 +59,8 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "X-CSRF-Token"},
+		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
@@ -57,12 +70,24 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	// API routes will be added here
-	// api := r.Group("/api/v1")
-	// {
-	//     // auth.RegisterRoutes(api, authHandler)
-	//     // accounts.RegisterRoutes(api, accountsHandler)
-	// }
+	// API routes
+	api := r.Group("/api/v1")
+	{
+		// Auth middleware for protected routes
+		authMiddleware := middleware.SessionAuth(authService)
+
+		// Register auth routes
+		auth.RegisterRoutes(api, authHandler, authMiddleware)
+
+		// Protected routes will be added here
+		// Example:
+		// protected := api.Group("")
+		// protected.Use(authMiddleware)
+		// protected.Use(middleware.CSRF())
+		// {
+		//     accounts.RegisterRoutes(protected, accountsHandler)
+		// }
+	}
 
 	// Create server
 	srv := &http.Server{

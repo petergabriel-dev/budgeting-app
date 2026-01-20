@@ -49,3 +49,60 @@
 *   `src/frontend/src/main.tsx` (Modified)
 *   `src/frontend/tsconfig.app.json` (Modified)
 **Status:** COMPLETED
+
+---
+**Timestamp:** 2026-01-20T18:56:52+08:00
+**Task Context:** Verify authentication flow (Task 6) via automated integration tests and manual browser verification. The objective was to ensure Register, Login, Session Persistence, and Logout work correctly end-to-end.
+**Implementation:**
+*   **Integration Test Verification**:
+    *   Discovered existing `src/backend/tests/integration/auth_test.go` with full test coverage.
+    *   Ran all 5 test cases: Register (201), Login (HttpOnly cookie), Get Me with cookie (user returned), Logout (cookie cleared), Get Me without cookie (401).
+    *   All tests passed (0.62s).
+*   **Manual Browser Verification**:
+    *   Started backend (`go run cmd/server/main.go`) and frontend (`npm run dev`) servers.
+    *   Attempted manual verification but encountered **infinite redirect loop** on `/register` and `/login` pages.
+*   **Bug Fix - Redirect Loop**:
+    *   Identified root cause: Axios interceptor in `src/frontend/src/lib/api.ts` was redirecting to `/login` on ALL 401 responses, including `/auth/me` checks on public pages.
+    *   Fixed by excluding `/auth/me` from the 401 redirect logic.
+*   **Post-Fix Verification**:
+    *   Re-ran browser tests successfully.
+    *   Verified: Register → redirect to dashboard ✅, Login → redirect to dashboard ✅, Session persistence on page refresh ✅.
+    *   Noted: Logout button missing from UI (to be added in Task 7: Dashboard Shell).
+*   **Documentation Updates**:
+    *   Updated `docs/prompts.md` to mark Task 6 automated and manual verification as complete.
+**Evidence:**
+*   `src/backend/tests/integration/auth_test.go` (Verified - all tests pass)
+*   `src/backend/tests/integration/setup_test.go` (Reviewed)
+*   `src/frontend/src/lib/api.ts` (Modified - fixed redirect loop)
+*   `docs/prompts.md` (Updated - Task 6 marked complete)
+*   `./artifacts/20260120_182700_auth_integration_test.txt` (Created)
+*   `./artifacts/20260120_184900_auth_verification_results.txt` (Created)
+*   Browser recording: `auth_flow_fixed_1768906203401.webp`
+**Status:** COMPLETED
+
+---
+**Timestamp:** 2026-01-20T19:04:24+08:00
+**Task Context:** Create the main dashboard layout for the frontend (Task 7), including a responsive sidebar, navigation, global loading indicator, and React Router integration.
+**Implementation:**
+*   **Infrastructure**:
+    *   Installed `lucide-react` for UI icons.
+    *   Updated `User` type in `src/frontend/src/features/auth/types/index.ts` to include `role`.
+*   **Components**:
+    *   Created `components/DashboardLayout.tsx`: Implemented responsive sidebar, role-based navigation stub (prepared for Admin/Client views), and logout functionality.
+    *   Created `components/DashboardLayout.css`: Added styling for sidebar interactions and dark mode theme.
+    *   Created `components/Loading.tsx`: Reusable global loading spinner.
+*   **Routing & Integration**:
+    *   Updated `components/ProtectedRoute.tsx` to use the new `Loading` component and fixed a syntax error.
+    *   Updated `app/routes.tsx` to wrap protected routes (`/dashboard`) with `DashboardLayout`.
+*   **Verification**:
+    *   Verified implementation via `npm run build` (Successful).
+**Evidence:**
+*   `src/frontend/src/components/DashboardLayout.tsx` (Created)
+*   `src/frontend/src/components/DashboardLayout.css` (Created)
+*   `src/frontend/src/components/Loading.tsx` (Created)
+*   `src/frontend/src/features/auth/types/index.ts` (Modified)
+*   `src/frontend/src/components/ProtectedRoute.tsx` (Modified)
+*   `src/frontend/src/app/routes.tsx` (Modified)
+*   `docs/prompts.md` (Updated - Task 7 marked complete)
+*   `walkthrough.md` (Created)
+**Status:** COMPLETED

@@ -23,7 +23,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        // Only redirect on 401 for non-auth endpoints
+        // The /auth/me endpoint is expected to return 401 for unauthenticated users
+        if (error.response?.status === 401 && !error.config?.url?.includes('/auth/me')) {
             // Handle unauthorized (redirect to login, etc.)
             window.location.href = '/login';
         }
